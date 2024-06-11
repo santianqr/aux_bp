@@ -1,6 +1,3 @@
-"use client";
-
-import { usePathname } from "next/navigation";
 import {
   Sheet,
   SheetClose,
@@ -11,7 +8,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustify, Link } from "lucide-react";
+import { AlignJustify } from "lucide-react";
+import Link from "next/link";
 
 const links = [
   { href: "/", text: "Search Now!" },
@@ -22,24 +20,34 @@ const links = [
   { href: "/account/settings", text: "Settings" },
 ];
 
-export default function HeaderButton() {
-  const pathname = usePathname();
+type HeaderButtonProps = {
+  classname?: string;
+};
+
+export function HeaderButton({ classname }: HeaderButtonProps) {
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <AlignJustify />
-      </SheetTrigger>
-      <SheetContent side={"left"}>
-        <SheetHeader>
-          <SheetTitle>Bumperpass Navigation Options</SheetTitle>
-          <SheetDescription></SheetDescription>
-        </SheetHeader>
-        <div>
-        </div>
-        <SheetFooter>
-          <SheetClose></SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <div className={classname}>
+      <Sheet>
+        <SheetTrigger asChild className="text-primary">
+          <AlignJustify />
+        </SheetTrigger>
+        <SheetContent side={"left"}>
+          <SheetHeader>
+            <SheetTitle>Bumperpass Navigation Options</SheetTitle>
+            <SheetDescription></SheetDescription>
+          </SheetHeader>
+          <div className="flex flex-col">
+            {links.map((link, index) => (
+              <Link key={index} href={link.href}>
+                {link.text}
+              </Link>
+            ))}
+          </div>
+          <SheetFooter>
+            <SheetClose></SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+    </div>
   );
 }
